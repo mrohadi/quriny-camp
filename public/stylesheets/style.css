@@ -1,0 +1,21 @@
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+.my-container {
+  /* padding: 20px; */
+  min-height: 100%;
+  margin: 0 auto -50px;
+}
+.footer,
+.push {
+  height: 50px;
+}
+.text-campground{
+  text-align: center;
+}
+.new-campground{
+  width: 30%;
+  margin: 30px auto;
+}

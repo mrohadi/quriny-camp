@@ -13,3 +13,7 @@ This app is providing a camp ground, so the use can search some of campground th
 - Add in body-parser to our application
 - Setup route to show form
 - Add basic unstyled form
+- Add a better header/title
+- Make campgrounds page display  a grid
+- Add a navbar to all templates
+- Style the new campground form
