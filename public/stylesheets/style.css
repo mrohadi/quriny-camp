@@ -1,5 +1,5 @@
-
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
@@ -12,10 +12,10 @@ html, body {
 .push {
   height: 50px;
 }
-.text-campground{
+.text-campground {
   text-align: center;
 }
-.new-campground{
+.new-campground {
   width: 30%;
   margin: 30px auto;
 }
