@@ -2,10 +2,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-// const path = require('path');
-// const favicon = require('express-favicon');
 const app = express();
 const port = process.env.PORT || 3000;
+const seedDB = require("./seeds.js");
+
+// seedDB();
+
+/* ==================== IMPORT MODULES ==================== */
+const Campground = require("./models/campground");
+const Comment = require("./models/campground");
 
 /* ==================== EXPRESS CONFIGURATION ==================== */
 // to parser the req.body data
@@ -27,14 +32,6 @@ mongoose
   .catch(err => {
     console.log(err.message);
   });
-// schema setup
-let campgroundSchema = new mongoose.Schema({
-  name: String,
-  image: String,
-  description: String,
-});
-// compile into a model (collections)
-let Campground = mongoose.model("Campground", campgroundSchema);
 
 /* ==================== ROUTES ==================== */
 // root route
@@ -74,16 +71,17 @@ app.get("/campgrounds/new", (req, res) => {
 });
 // Show - Show info about one campground
 app.get("/campgrounds/:id", (req, res) => {
-  const id = req.params.id;
   // find the campground with provided ID
-  Campground.findById(id, (err, foundCampground) => {
-    if (err) {
-      console.log(err);
-    } else {
-      // render show template with that campground
-      res.render("infoCampground", { campground: foundCampground });
-    }
-  });
+  Campground.findById(req.params.id)
+    .populate("comments")
+    .exec((err, foundCampground) => {
+      if (err) {
+        console.log(err);
+      } else {
+        // Render show template with that campground
+        res.render("infoCampground", { campground: foundCampground });
+      }
+    });
 });
 
 /* ==================== LISTENING TO THE SERVER ==================== */

@@ -31,12 +31,18 @@ This app is providing a camp ground, so the use can search some of campground th
 
 In RESTFul routes, order is really matter
 
-|  Naem  |      Path      | HTTP Verb |                    Description                     |
-| :----: | :------------: | :-------: | :------------------------------------------------: |
-| INDEX  |     /dogs      |    GET    |             Display a list of all dog              |
-|  NEW   |   /dogs/new    |    GET    |          Dispaly a form to make a new dog          |
-| CREATE |     /dogs      |   POST    |              Add new dog to data base              |
-|  SHOW  |   /dogs/:id    |    GET    |              Show info about one dog               |
-|  EDIT  | /dogs/:id/edit |    GET    |             Show edit form for one dog             |
-| UPDATE |   /dogs/:id    |    PUT    | Update a particular dog, and redirect to somewhere |
-| DELETE |   /dogs/:id    |   DELTE   | Delte a particular dog, and redirect to somewhere  |
+|  Naem  |         Path          | HTTP Verb |                        Description                        |
+| :----: | :-------------------: | :-------: | :-------------------------------------------------------: |
+| INDEX  |     /campgrounds      |    GET    |             Display a list of all campground              |
+|  NEW   |   /campgrounds/new    |    GET    |          Dispaly a form to make a new campground          |
+| CREATE |     /campgrounds      |   POST    |              Add new campground to data base              |
+|  SHOW  |   /campgrounds/:id    |    GET    |              Show info about one campground               |
+|  EDIT  | /campgrounds/:id/edit |    GET    |             Show edit form for one campground             |
+| UPDATE |   /campgrounds/:id    |    PUT    | Update a particular campground, and redirect to somewhere |
+| DELETE |   /campgrounds/:id    |   DELTE   | Delte a particular campground, and redirect to somewhere  |
+
+### V3
+
+- Create a models directory
+- Use module.exports
+- Require everything correctly
