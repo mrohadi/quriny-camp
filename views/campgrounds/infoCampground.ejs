@@ -1,4 +1,4 @@
-<%- include("partials/header") %>
+<%- include("../partials/header") %>
 <!-- Content -->
 <p><%= campground.name %></p>
 
@@ -6,8 +6,8 @@
 
 <p><%= campground.description %></p>
 
-<% campground.comments.forEach(comment =>{ %>
+<% campground.comments.forEach((comment) =>{ %>
 <p><strong><%= comment.author %></strong> - <%= comment.text %></p>
 <% }) %>
 <!-- Footer -->
-<%- include("partials/footer") %>
+<%- include("../partials/footer") %>

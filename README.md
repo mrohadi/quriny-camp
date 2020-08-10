@@ -46,3 +46,8 @@ In RESTFul routes, order is really matter
 - Create a models directory
 - Use module.exports
 - Require everything correctly
+
+### V4
+
+- Add the comment new and create route
+- Add new comment form

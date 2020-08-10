@@ -1,4 +1,6 @@
-/* ==================== IMPORT PACKAGES ==================== */
+/* ================================================ */
+// IMPORT PACKAGES
+/* ================================================ */
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -8,18 +10,24 @@ const seedDB = require("./seeds.js");
 
 // seedDB();
 
-/* ==================== IMPORT MODULES ==================== */
+/* ================================================ */
+// IMPORT MODELS
+/* ================================================ */
 const Campground = require("./models/campground");
 const Comment = require("./models/campground");
 
-/* ==================== EXPRESS CONFIGURATION ==================== */
+/* ================================================ */
+// EXPRESS CONFIGURATION
+/* ================================================ */
 // to parser the req.body data
 app.use(bodyParser.urlencoded({ extended: true }));
 // set the page, so we don't need to include .ejs in our render response
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 
-/* ==================== MONGOOSE ==================== */
+/* ================================================ */
+// MONGOOSE CONFIGURATION
+/* ================================================ */
 // connect to mongodb
 mongoose
   .connect("mongodb://localhost:27017/quriny-camp", {
@@ -33,11 +41,15 @@ mongoose
     console.log(err.message);
   });
 
-/* ==================== ROUTES ==================== */
+/* ================================================ */
+// ROUTES
+/* ================================================ */
 // root route
 app.get("/", (req, res) => {
   res.render("home");
 });
+
+/* ==================== Campground Routes ==================== */
 // Index - show campgrounds route
 app.get("/campgrounds", (req, res) => {
   // get all campground from data base
@@ -46,7 +58,7 @@ app.get("/campgrounds", (req, res) => {
       console.log(err);
     } else {
       // render the campgrounds
-      res.render("campgrounds", { campgrounds: campgrounds });
+      res.render("campgrounds/campgrounds", { campgrounds: campgrounds });
     }
   });
 });
@@ -67,7 +79,7 @@ app.post("/campgrounds", (req, res) => {
 });
 // New - route for show post new campground page
 app.get("/campgrounds/new", (req, res) => {
-  res.render("newCampground");
+  res.render("campgrounds/newCampground");
 });
 // Show - Show info about one campground
 app.get("/campgrounds/:id", (req, res) => {
@@ -78,10 +90,51 @@ app.get("/campgrounds/:id", (req, res) => {
       if (err) {
         console.log(err);
       } else {
+        // console.log(foundCampground);
         // Render show template with that campground
-        res.render("infoCampground", { campground: foundCampground });
+        res.render("campgrounds/infoCampground", {
+          campground: foundCampground,
+        });
       }
     });
+});
+
+/* ==================== Comments Routes ==================== */
+// New - Show create new comment form
+app.get("/campgrounds/:id/comments/new", (req, res) => {
+  // find campground by id, and send that to the template
+  Campground.findById(req.params.id, (err, campground) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("comments/newComment", { campground: campground });
+    }
+  });
+});
+// Create - post a new comment on the campground
+app.post("/campgrounds/:id/comments", (req, res) => {
+  // lookup campground  using ID
+  Campground.findById(req.params.id, (err, campground) => {
+    if (err) {
+      console.log(err);
+      res.redirect("/campgrounds");
+    } else {
+      console.log(req.body);
+      // create new comment
+      Comment.create(req.body.comment, (err, comment) => {
+        if (err) {
+          console.log(err);
+        } else {
+          // connect new comment to campground
+          campground.comments.push(comment);
+          campground.save();
+          // redirect to the that campground
+          res.redirect(`/campgrounds/${campground._id}`);
+        }
+      });
+    }
+    // console.log(campground);
+  });
 });
 
 /* ==================== LISTENING TO THE SERVER ==================== */
