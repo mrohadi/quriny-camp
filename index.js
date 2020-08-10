@@ -41,31 +41,31 @@ app.use(express.static(__dirname + "/public"));
 /* ================================================ */
 // ROUTES
 /* ================================================ */
-// Root route
+// root route
 app.get("/", (req, res) => {
   res.render("home");
 });
+
 /* ==================== Campground Routes ==================== */
-// INDEX - Campgrounds route
+// Index - show campgrounds route
 app.get("/campgrounds", (req, res) => {
-  // Get all campground from data base
-  Campground.find({}, (err, allCampgrounds) => {
+  // get all campground from data base
+  Campground.find({}, (err, campgrounds) => {
     if (err) {
       console.log(err);
     } else {
-      res.render("campgrounds/campgrounds", { campgrounds: allCampgrounds });
+      // render the campgrounds
+      res.render("campgrounds/campgrounds", { campgrounds: campgrounds });
     }
   });
 });
-// CREATE - Add new campground to campgrounds route
+// Create - post a new campground route
 app.post("/campgrounds", (req, res) => {
-  // Get data from form and add to campgrounds
-  var name = req.body.name,
-    image = req.body.image,
-    desc = req.body.description,
-    newCampground = { name: name, image: image, description: desc };
-  // Create a new campground and save it to data base
-  Campground.create(newCampground, (err, newlyCreated) => {
+  // get data from form and add it to campground array
+  const { name, image, description } = req.body;
+  const newCampground = { name: name, image: image, description: description };
+  // create a new campground and save it to data base
+  Campground.create(newCampground, (err, campground) => {
     if (err) {
       console.log(err);
     } else {
@@ -74,20 +74,20 @@ app.post("/campgrounds", (req, res) => {
     }
   });
 });
-// NEW - Display add new campground route
+// New - route for show post new campground page
 app.get("/campgrounds/new", (req, res) => {
   res.render("campgrounds/newCampground");
 });
-// SHOW - Show one campgorund with id for all the information of it
+// Show - Show info about one campground
 app.get("/campgrounds/:id", (req, res) => {
-  // Find the campgorund with the provided id
+  // find the campground with provided ID
   Campground.findById(req.params.id)
     .populate("comments")
     .exec((err, foundCampground) => {
       if (err) {
         console.log(err);
       } else {
-        console.log(foundCampground);
+        // console.log(foundCampground);
         // Render show template with that campground
         res.render("campgrounds/infoCampground", {
           campground: foundCampground,
@@ -95,9 +95,11 @@ app.get("/campgrounds/:id", (req, res) => {
       }
     });
 });
-// ==================== COMMENTS ROUTES ====================
+
+/* ==================== Comments Routes ==================== */
+// New - Show create new comment form
 app.get("/campgrounds/:id/comments/new", (req, res) => {
-  // Find campground by Id
+  // find campground by id, and send that to the template
   Campground.findById(req.params.id, (err, campground) => {
     if (err) {
       console.log(err);
@@ -106,30 +108,33 @@ app.get("/campgrounds/:id/comments/new", (req, res) => {
     }
   });
 });
+// Create - post a new comment on the campground
 app.post("/campgrounds/:id/comments", (req, res) => {
-  // Lookup campground using Id
+  // lookup campground  using ID
   Campground.findById(req.params.id, (err, campground) => {
     if (err) {
       console.log(err);
       res.redirect("/campgrounds");
     } else {
-      // Create new comment
+      // console.log(req.body.comment);
+      // create new comment
       Comment.create(req.body.comment, (err, comment) => {
         if (err) {
           console.log(err);
         } else {
-          // Connect new comment to campground data base
+          // connect new comment to campground
           campground.comments.push(comment);
           campground.save();
-          // Redirect to campground show page
-          res.redirect("/campgrounds/" + campground._id);
+          // redirect to the that campground
+          res.redirect(`/campgrounds/${campground._id}`);
         }
       });
     }
+    // console.log(campground);
   });
 });
 
-// ==================== LISTEN TO THE SERVER ====================
+/* ==================== LISTENING TO THE SERVER ==================== */
 app.listen(port, () => {
-  console.log("YalpCamp Server is Running");
+  console.log(`Server is running on port ${port}`);
 });
