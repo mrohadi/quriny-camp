@@ -6,8 +6,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
-const Campground = require("./models/campgroundModel");
-const Comment = require("./models/commentModel");
+const methodOverride = require("method-override");
 const User = require("./models/userModel");
 // const seedDB = require("./seeds");
 const app = express();
@@ -26,6 +25,7 @@ mongoose
   .connect("mongodb://localhost:27017/quriny-camp", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
   })
   .then(() => {
     console.log("Connected to MongoDB");
@@ -40,6 +40,7 @@ mongoose
 app.use(bodyParser.urlencoded({ extended: true })); // Use body parser module through the bodyParser variable
 app.set("view engine", "ejs"); // Set Up ejs package to read ejs extension file
 app.use(express.static(__dirname + "/public"));
+app.use(methodOverride("_method"));
 // seedDB(); // Seedding the database
 
 /* ================================================ */
@@ -70,8 +71,6 @@ app.use(function (req, res, next) {
 app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
-
-// TODO refactor isLoggedin middleware inside all of the routes
 
 /* ==================== LISTENING TO THE SERVER ==================== */
 app.listen(port, () => {
