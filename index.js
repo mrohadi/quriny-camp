@@ -37,14 +37,10 @@ mongoose
 /* ================================================ */
 // EXPRESS CONFIGURATION
 /* ================================================ */
-// Use body parser module through the bodyParser variable
-app.use(bodyParser.urlencoded({ extended: true }));
-// Set Up ejs package to read ejs extension file
-app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({ extended: true })); // Use body parser module through the bodyParser variable
+app.set("view engine", "ejs"); // Set Up ejs package to read ejs extension file
 app.use(express.static(__dirname + "/public"));
-
-// Seedding the database
-// seedDB();
+// seedDB(); // Seedding the database
 
 /* ================================================ */
 // PASSPORT CONFIGURATION
