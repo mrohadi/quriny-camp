@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true }); // to get the req.params.id
-const Campground = require("../models/campground");
-const Comment = require("../models/comment");
+const Campground = require("../models/campgroundModel");
+const Comment = require("../models/commentModel");
 
 /* ==================== Comments Routes ==================== */
 // New - Show create new comment form

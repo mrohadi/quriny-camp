@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Campground = require("../models/campground");
+const Campground = require("../models/campgroundModel");
 
 /* ==================== Campground Routes ==================== */
 // Index - show campgrounds route
@@ -21,23 +21,34 @@ router.get("/", (req, res) => {
 });
 
 // Create - post a new campground route
-router.post("/", (req, res) => {
+router.post("/", isLoggedIn, (req, res) => {
   // get data from form and add it to campground array
   const { name, image, description } = req.body;
-  const newCampground = { name: name, image: image, description: description };
+  const author = {
+    id: req.user._id,
+    username: req.user.username,
+  };
+  // console.log(req.user);
+  const newCampground = {
+    name: name,
+    image: image,
+    description: description,
+    author: author,
+  };
   // create a new campground and save it to data base
   Campground.create(newCampground, (err, campground) => {
     if (err) {
       console.log(err);
     } else {
       // redirect back to campgrounds page
+      // console.log(campground);
       res.redirect("/campgrounds");
     }
   });
 });
 
 // New - route for show post new campground page
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
   res.render("campgrounds/newCampground");
 });
 

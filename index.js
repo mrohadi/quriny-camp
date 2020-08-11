@@ -6,17 +6,17 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
-const Campground = require("./models/campground");
-const Comment = require("./models/comment");
-const User = require("./models/user");
+const Campground = require("./models/campgroundModel");
+const Comment = require("./models/commentModel");
+const User = require("./models/userModel");
 // const seedDB = require("./seeds");
 const app = express();
 const port = 3000;
 
 // Import Routes
-const campgroundRoutes = require("./routes/campgrounds");
-const commentRoutes = require("./routes/comments");
-const indexRoutes = require("./routes/index");
+const campgroundRoutes = require("./routes/campgroundsRoute");
+const commentRoutes = require("./routes/commentsRoute");
+const indexRoutes = require("./routes/indexRoute");
 
 /* ================================================ */
 // MONGOOSE CONFIGURATION
