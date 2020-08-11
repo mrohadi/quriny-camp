@@ -58,3 +58,7 @@ In RESTFul routes, order is really matter
 
 - Add sidebar to info campground page
 - Styling the page
+
+### v6
+
+- Add user authentication
