@@ -12,31 +12,18 @@
     </div>
     <div class="col-md-9">
       <div class="thumbnail">
-        <img
-          class="img-responsive"
-          src="<%= campground.image %>"
-          alt="<%= campground.name %>"
-        />
+        <img class="img-responsive" src="<%= campground.image %>" alt="<%= campground.name %>" />
         <div class="caption-full">
-          <h4 class="pull-right">$9.00/night</h4>
+          <h4 class="pull-right">$<%= campground.price %>/night</h4>
           <h4><a href=""><%= campground.name %></a></h4>
           <p><%= campground.description %></p>
           <p>
             <em>
-              Posted by <strong><%= campground.author.username %></strong></em
-            >
+              Posted by <strong><%= campground.author.username %></strong></em>
           </p>
           <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
-          <a
-            class="btn btn-warning"
-            href="/campgrounds/<%= campground._id %>/edit"
-            >Edit</a
-          >
-          <form
-            class="delete-form"
-            action="/campgrounds/<%= campground._id %>?_method=DELETE"
-            method="POST"
-          >
+          <a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
+          <form class="delete-form" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
             <button class="btn btn-danger">Delete</button>
           </form>
           <% } %>
@@ -44,11 +31,7 @@
       </div>
       <div class="well">
         <div class="text-right">
-          <a
-            class="btn btn-success"
-            href="/campgrounds/<%= campground._id %>/comments/new"
-            >Add new Comment</a
-          >
+          <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add new Comment</a>
         </div>
         <hr />
         <% campground.comments.forEach((comment) =>{ %>
@@ -58,21 +41,11 @@
             <span class="pull-right">10 days ago</span>
             <p><%= comment.text %></p>
             <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
-            <a
-              class="btn btn-xs btn-warning"
-              href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit"
-              >Edit</a
-            >
-            <form
-              class="delete-form"
-              action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE"
-              method="POST"
-            >
-              <input
-                class="btn btn-xs btn-danger"
-                type="submit"
-                value="Delete"
-              />
+            <a class="btn btn-xs btn-warning"
+              href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">Edit</a>
+            <form class="delete-form"
+              action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+              <input class="btn btn-xs btn-danger" type="submit" value="Delete" />
             </form>
             <% } %>
           </div>

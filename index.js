@@ -4,13 +4,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const methodOverride = require("method-override");
 const User = require("./models/userModel");
-// const seedDB = require("./seeds");
 const app = express();
 const port = 3000;
+// const seedDB = require("./seeds");
 
 // Import Routes
 const campgroundRoutes = require("./routes/campgroundsRoute");
@@ -41,6 +42,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // Use body parser module th
 app.set("view engine", "ejs"); // Set Up ejs package to read ejs extension file
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
+app.use(flash());
 // seedDB(); // Seedding the database
 
 /* ================================================ */
@@ -62,6 +64,8 @@ passport.deserializeUser(User.deserializeUser());
 // Middleware to check if the user is logged in
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
+  res.locals.error = req.flash('error');
+  res.locals.success = req.flash('success');
   next();
 });
 

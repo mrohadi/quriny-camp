@@ -19,10 +19,12 @@ router.post("/signup", (req, res) => {
   let newUser = new User({ username: req.body.username });
   User.register(newUser, req.body.password, (err, user) => {
     if (err) {
-      console.log(err);
+      // console.log(err);
+      req.flash('error', err.message);
       return res.render("users/signUp");
     }
     passport.authenticate("local")(req, res, () => {
+      req.flash('success', 'Welcome to QurinyCamp! ' + user.username);
       res.redirect("/campgrounds");
     });
   });
@@ -40,21 +42,14 @@ router.post(
     successRedirect: "/campgrounds",
     failureRedirect: "/signin",
   }),
-  (req, res) => {}
+  (req, res) => { }
 );
 
 // Logout
 router.get("/logout", (req, res) => {
   req.logout();
+  req.flash('success', "Logged out!")
   res.redirect("/");
 });
-
-// Middleware authenticated
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect("/signin");
-}
 
 module.exports = router;
