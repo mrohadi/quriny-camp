@@ -1,29 +1,14 @@
 /* ================================================ */
-// IMPORT PACKAGES
+// IMPORT PACKAGES AND MODULES
 /* ================================================ */
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const app = express();
-const port = process.env.PORT || 3000;
-const seedDB = require("./seeds.js");
-
-// seedDB();
-
-/* ================================================ */
-// IMPORT MODELS
-/* ================================================ */
 const Campground = require("./models/campground");
-const Comment = require("./models/campground");
-
-/* ================================================ */
-// EXPRESS CONFIGURATION
-/* ================================================ */
-// to parser the req.body data
-app.use(bodyParser.urlencoded({ extended: true }));
-// set the page, so we don't need to include .ejs in our render response
-app.set("view engine", "ejs");
-app.use(express.static(__dirname + "/public"));
+const Comment = require("./models/comment");
+const seedDB = require("./seeds");
+const app = express();
+const port = 3000;
 
 /* ================================================ */
 // MONGOOSE CONFIGURATION
@@ -42,33 +27,45 @@ mongoose
   });
 
 /* ================================================ */
+// EXPRESS CONFIGURATION
+/* ================================================ */
+// Use body parser module through the bodyParser variable
+app.use(bodyParser.urlencoded({ extended: true }));
+// Set Up ejs package to read ejs extension file
+app.set("view engine", "ejs");
+app.use(express.static(__dirname + "/public"));
+
+// Seedding the database
+// seedDB();
+
+/* ================================================ */
 // ROUTES
 /* ================================================ */
-// root route
+// Root route
 app.get("/", (req, res) => {
   res.render("home");
 });
-
 /* ==================== Campground Routes ==================== */
-// Index - show campgrounds route
+// INDEX - Campgrounds route
 app.get("/campgrounds", (req, res) => {
-  // get all campground from data base
-  Campground.find({}, (err, campgrounds) => {
+  // Get all campground from data base
+  Campground.find({}, (err, allCampgrounds) => {
     if (err) {
       console.log(err);
     } else {
-      // render the campgrounds
-      res.render("campgrounds/campgrounds", { campgrounds: campgrounds });
+      res.render("campgrounds/campgrounds", { campgrounds: allCampgrounds });
     }
   });
 });
-// Create - post a new campground route
+// CREATE - Add new campground to campgrounds route
 app.post("/campgrounds", (req, res) => {
-  // get data from form and add it to campground array
-  const { name, image, description } = req.body;
-  const newCampground = { name: name, image: image, description: description };
-  // create a new campground and save it to data base
-  Campground.create(newCampground, (err, campground) => {
+  // Get data from form and add to campgrounds
+  var name = req.body.name,
+    image = req.body.image,
+    desc = req.body.description,
+    newCampground = { name: name, image: image, description: desc };
+  // Create a new campground and save it to data base
+  Campground.create(newCampground, (err, newlyCreated) => {
     if (err) {
       console.log(err);
     } else {
@@ -77,20 +74,20 @@ app.post("/campgrounds", (req, res) => {
     }
   });
 });
-// New - route for show post new campground page
+// NEW - Display add new campground route
 app.get("/campgrounds/new", (req, res) => {
   res.render("campgrounds/newCampground");
 });
-// Show - Show info about one campground
+// SHOW - Show one campgorund with id for all the information of it
 app.get("/campgrounds/:id", (req, res) => {
-  // find the campground with provided ID
+  // Find the campgorund with the provided id
   Campground.findById(req.params.id)
     .populate("comments")
     .exec((err, foundCampground) => {
       if (err) {
         console.log(err);
       } else {
-        // console.log(foundCampground);
+        console.log(foundCampground);
         // Render show template with that campground
         res.render("campgrounds/infoCampground", {
           campground: foundCampground,
@@ -98,11 +95,9 @@ app.get("/campgrounds/:id", (req, res) => {
       }
     });
 });
-
-/* ==================== Comments Routes ==================== */
-// New - Show create new comment form
+// ==================== COMMENTS ROUTES ====================
 app.get("/campgrounds/:id/comments/new", (req, res) => {
-  // find campground by id, and send that to the template
+  // Find campground by Id
   Campground.findById(req.params.id, (err, campground) => {
     if (err) {
       console.log(err);
@@ -111,33 +106,30 @@ app.get("/campgrounds/:id/comments/new", (req, res) => {
     }
   });
 });
-// Create - post a new comment on the campground
 app.post("/campgrounds/:id/comments", (req, res) => {
-  // lookup campground  using ID
+  // Lookup campground using Id
   Campground.findById(req.params.id, (err, campground) => {
     if (err) {
       console.log(err);
       res.redirect("/campgrounds");
     } else {
-      console.log(req.body);
-      // create new comment
+      // Create new comment
       Comment.create(req.body.comment, (err, comment) => {
         if (err) {
           console.log(err);
         } else {
-          // connect new comment to campground
+          // Connect new comment to campground data base
           campground.comments.push(comment);
           campground.save();
-          // redirect to the that campground
-          res.redirect(`/campgrounds/${campground._id}`);
+          // Redirect to campground show page
+          res.redirect("/campgrounds/" + campground._id);
         }
       });
     }
-    // console.log(campground);
   });
 });
 
-/* ==================== LISTENING TO THE SERVER ==================== */
+// ==================== LISTEN TO THE SERVER ====================
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log("YalpCamp Server is Running");
 });
