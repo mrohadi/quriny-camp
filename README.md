@@ -51,3 +51,14 @@ In RESTFul routes, order is really matter
 
 - Add the comment new and create route
 - Add new comment form
+- Add campgrounds and comments directory and repair the file path
+- Using new strategy to group element inside form => name = "comment[text]"
+
+### v5
+
+- Add sidebar to info campground page
+- Styling the page
+
+### v6
+
+- Add user authentication

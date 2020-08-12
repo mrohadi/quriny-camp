@@ -19,3 +19,15 @@ body {
   width: 30%;
   margin: 30px auto;
 }
+.thumbnail {
+  padding: 0;
+}
+.thumbnail img {
+  width: 100%;
+}
+.thumbnail .caption-full {
+  padding: 10px;
+}
+.delete-form {
+  display: inline;
+}
