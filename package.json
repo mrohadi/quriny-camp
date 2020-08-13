@@ -4,8 +4,8 @@
   "description": "This app is providing a camp ground, so the use can search some of camp ground they likes. This app using Node.js with express framework for writing server, and mongodb by using mongoose library for the data base. EJS was used for making the all of pages in this app.",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon index",
-    "start": "node index"
+    "test": "nodemon index.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
