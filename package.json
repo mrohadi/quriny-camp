@@ -11,6 +11,9 @@
     "type": "git",
     "url": "git+https://github.com/mrohadi/quriny-camp.git"
   },
+  "engines": {
+    "node": "12.16.2"
+  },
   "author": "debujos",
   "license": "ISC",
   "bugs": {
