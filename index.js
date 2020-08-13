@@ -10,6 +10,7 @@ const LocalStrategy = require("passport-local");
 const methodOverride = require("method-override");
 const User = require("./models/userModel");
 const app = express();
+const PORT = process.env.PORT || 5000;
 // const seedDB = require("./seeds");
 
 // Import Routes
@@ -21,12 +22,8 @@ const indexRoutes = require("./routes/indexRoute");
 // MONGOOSE CONFIGURATION
 /* ================================================ */
 // connect to mongodb
-console.log(process.env.DATABASE);
-
-const productURI = "mongodb://mrohadi:mrohadi@cluster0-shard-00-00.e32vb.mongodb.net:27017,cluster0-shard-00-01.e32vb.mongodb.net:27017,cluster0-shard-00-02.e32vb.mongodb.net:27017/quriny-camp?ssl=true&replicaSet=atlas-y317wf-shard-0&authSource=admin&retryWrites=true&w=majority";
-// const devURI = "mongodb://localhost:27017/quriny-camp";
 mongoose
-  .connect(process.env.DATABASE, {
+  .connect(process.env.DATABASEURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -37,8 +34,6 @@ mongoose
   .catch(err => {
     console.log(err.message);
   });
-
-
 
 /* ================================================ */
 // EXPRESS CONFIGURATION
@@ -82,11 +77,6 @@ app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
 /* ==================== LISTENING TO THE SERVER ==================== */
-let port = process.env.PORT;
-if (port == null || port == "") {
-  port = 5000;
-}
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
