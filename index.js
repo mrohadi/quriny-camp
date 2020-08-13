@@ -25,9 +25,9 @@ const indexRoutes = require("./routes/indexRoute");
 console.log(process.env.DATABASE);
 
 const productURI = "mongodb://mrohadi:mrohadi@cluster0-shard-00-00.e32vb.mongodb.net:27017,cluster0-shard-00-01.e32vb.mongodb.net:27017,cluster0-shard-00-02.e32vb.mongodb.net:27017/quriny-camp?ssl=true&replicaSet=atlas-y317wf-shard-0&authSource=admin&retryWrites=true&w=majority";
-const devURI = "mongodb://localhost:27017/quriny-camp";
+// const devURI = "mongodb://localhost:27017/quriny-camp";
 mongoose
-  .connect(process.env.DATABASE, {
+  .connect(productURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
