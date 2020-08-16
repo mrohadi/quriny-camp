@@ -8,10 +8,12 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const methodOverride = require("method-override");
+const dotenv = require('dotenv').config();
 const User = require("./models/userModel");
 const app = express();
 const PORT = process.env.PORT || 5000;
 // const seedDB = require("./seeds");
+
 
 // Import Routes
 const campgroundRoutes = require("./routes/campgroundsRoute");
@@ -22,8 +24,9 @@ const indexRoutes = require("./routes/indexRoute");
 // MONGOOSE CONFIGURATION
 /* ================================================ */
 // connect to mongodb
+
 mongoose
-  .connect(process.env.DATABASEURL, {
+  .connect(process.env.DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,

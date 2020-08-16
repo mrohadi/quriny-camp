@@ -1,28 +1,31 @@
 <%- include("../partials/header") %>
 <!--  -->
 
-<div class="container">
+<div class="container-fluid mb-4 px-5">
   <header class="jumbotron">
     <div class="container">
       <h1>Welcome to Quriny Camp</h1>
       <P>The best palce to find a better campground from all over the world!</P>
       <p>
-        <a class="btn btn-success btn-lg" href="/campgrounds/new">Add new Campground</a>
+        <a class="btn btn-success mybtn" href="/campgrounds/new">Add new Campground</a>
       </p>
     </div>
   </header>
 
-  <div class="row text-center" style="display: flex; flex-wrap: wrap;">
+  <div class="row row-cols-1 row-cols-md-3" style="display: flex; flex-wrap: wrap;">
     <% campgrounds.forEach(campground =>{ %>
     <div class="col-md-4 col-sm-6">
-      <div class="thumbnail">
-        <img src="<%= campground.image%>" />
-        <div class="caption">
-          <h4><%= campground.name %></h4>
+      <div class="card">
+        <img class="card-img-top" src="<%= campground.image%>" />
+        <div class="card-body">
+          <h4 class="card-title"><%= campground.name %></h4>
+          <p class="card-text">
+            <a href="/campgrounds/<%= campground._id %>" class="btn btn-success mybtn">More Info</a>
+          </p>
         </div>
-        <p>
-          <a href="/campgrounds/<%= campground._id %>" class="btn btn-success">More Info</a>
-        </p>
+        <div class="card-footer">
+          <small class="text-muted">Last updated 3 mins ago</small>
+        </div>
       </div>
     </div>
     <% }) %>
