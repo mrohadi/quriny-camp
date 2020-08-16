@@ -13,8 +13,7 @@ $font-family-base: "Cabin", sans-serif;
 @import 'home';
 @import 'campground';
 @import 'components/searchbar';
-// @import 'components/button';
-@import 'button';
+@import 'components/button';
 @import 'layout';
 
 
@@ -101,3 +100,11 @@ a{
       color: #ff0000;
       }
       #second{display:none;}
+      
+// Masonry
+* { box-sizing: border-box; }
+
+/* force scrollbar */
+html { overflow-y: scroll; }
+
+body { font-family: sans-serif; }

@@ -2,10 +2,17 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const User = require("../models/userModel");
+const Campground = require("../models/campgroundModel");
 
 /* ==================== Root Route ==================== */
 router.get("/", (req, res) => {
-  res.render("home");
+  Campground.find({}, (err, campgrounds) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.render("home", { campgrounds: campgrounds });
+    }
+  })
 });
 
 /* ==================== Users Authenticated Routes ==================== */

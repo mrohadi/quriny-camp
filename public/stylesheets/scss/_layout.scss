@@ -2,3 +2,35 @@
     width: 1400px;
     margin: 0 auto;
 }
+
+/* ---- grid ---- */
+
+.grid {
+    background: white;
+  }
+  
+  /* clear fix */
+  .grid:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+  
+  /* ---- .grid-item ---- */
+  
+  .grid-sizer,
+  .grid-item {
+    width: 33.333%;
+    // margin: 1%;
+    // padding: 1%;
+  }
+  
+  .grid-item {
+    float: left;
+    padding: 1%;
+  }
+  
+  .grid-item img {
+    display: block;
+    max-width: 100%;
+  }

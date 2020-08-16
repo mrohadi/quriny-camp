@@ -72,3 +72,9 @@
 .no-cssanimations .slideshow li {
 	opacity: 1;
 }
+.home-image{
+  object-fit: fill;
+  height: 80vh;
+  filter: brightness(50%);
+  margin-top: 100px;
+}
