@@ -8,10 +8,12 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const methodOverride = require("method-override");
+const dotenv = require('dotenv').config();
 const User = require("./models/userModel");
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 5000;
 // const seedDB = require("./seeds");
+
 
 // Import Routes
 const campgroundRoutes = require("./routes/campgroundsRoute");
@@ -22,10 +24,9 @@ const indexRoutes = require("./routes/indexRoute");
 // MONGOOSE CONFIGURATION
 /* ================================================ */
 // connect to mongodb
-const productURI = "mongodb://mrohadi:mrohadi@cluster0-shard-00-00.e32vb.mongodb.net:27017,cluster0-shard-00-01.e32vb.mongodb.net:27017,cluster0-shard-00-02.e32vb.mongodb.net:27017/quriny-camp?ssl=true&replicaSet=atlas-y317wf-shard-0&authSource=admin&retryWrites=true&w=majority";
-const devURI = "mongodb://localhost:27017/quriny-camp";
+
 mongoose
-  .connect(productURI, {
+  .connect(process.env.DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -36,8 +37,6 @@ mongoose
   .catch(err => {
     console.log(err.message);
   });
-
-
 
 /* ================================================ */
 // EXPRESS CONFIGURATION
@@ -81,6 +80,6 @@ app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
 /* ==================== LISTENING TO THE SERVER ==================== */
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
