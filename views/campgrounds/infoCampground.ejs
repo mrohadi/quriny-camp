@@ -18,8 +18,7 @@
           <h4 class="card-title"><a href=""><%= campground.name %></a></h4>
           <p class="card-text"><%= campground.description %></p>
           <p>
-            <em>
-              Posted by <strong><%= campground.author.username %></strong></em>
+            <em>Posted &#64; <%= campground.author.username %> - <%= moment(campground.createdAt).fromNow() %></em>
           </p>
           <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
           <a class="btn btn-sm btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
@@ -38,7 +37,7 @@
         <div class="row card-body">
           <div class="col-md-12 ">
             <strong><%= comment.author.username %></strong>
-            <span class="pull-right">10 days ago</span>
+            <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
             <p><%= comment.text %></p>
             <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
             <a class="btn btn-sm btn-warning"
@@ -67,25 +66,25 @@
         </button>
       </div>
       <div class="modal-body p-5">
-        <form action="/campgrounds" method="POST">
+        <form action="/campgrounds" method="POST" enctype="multipart/form-data">
           <div class="form-group">
-            <input class="form-control" type="text" name="name" placeholder="name" />
+            <label for="name">Name</label>
+            <input class="form-control" type="text" id="name" name="campground[name]" placeholder="name">
           </div>
           <div class="form-group">
-            <input class="form-control" type="text" name="image" placeholder="image url" />
+            <label for="image">Image</label>
+            <input class="form-control" type="file" id="image" name="image" accept="image/*" required>
           </div>
           <div class="form-group">
-            <input class="form-control" type="number" name="price" placeholder="price" min="0.01" step="0.01" />
+            <label for="price">Price</label>
+            <input class="form-control" type="number" id="price" name="campground[price]" placeholder="price" min="0.01"
+              step="0.01" />
           </div>
-          <!-- <div class="form-group">
-            <input class="form-control" type="text" name="description" placeholder="description" />
-          </div> -->
-
           <div class="form-group">
+            <label for="exampleFormControlTextarea1">Description</label>
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description"
               placeholder="description"></textarea>
           </div>
-
           <div class="form-group">
             <button class="btn btn-lg btn-success btn-block mybtn">Submit</button>
           </div>

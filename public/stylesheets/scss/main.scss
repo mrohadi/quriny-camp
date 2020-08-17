@@ -146,5 +146,15 @@ html { overflow-y: scroll; }
     color: $color-grey-dark-2;
     cursor: pointer;
   }
-  
+}
+
+/* Campground */
+.mycampground:hover{
+  cursor: pointer;
+}
+
+/* Google Maps */
+#map {
+  height: 400px;
+  width: 100%;
 }
