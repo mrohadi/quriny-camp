@@ -27,12 +27,13 @@
   <!-- Header -->
   <header>
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top py-3">
+    <nav class="navbar navbar-expand-md navbar-light bg-white fixed-top py-3">
       <div class="container-fluid">
         <a class="navbar-brand" href="/">
           <img src="/images/logo.png" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
           QurinyCamp
         </a>
+
         <!-- Search bar -->
         <form action="#" class="search">
           <input type="text" class="search-input" placeholder="Search Campground">
@@ -45,11 +46,27 @@
         <div class="d-flex flex-row-reverse bd-highlight">
           <ul class="nav navbar-nav navbar-right">
             <% if(!currentUser){ %>
-            <li><a class="mr-3" href="/signin">Login</a></li>
-            <li><a href="/signup">Join</a></li>
+            <li><a class="btn btn-md mr-3" href="/signin">Login</a></li>
+            <li><a class="btn btn-md btn-success" href="/signup">Join free</a></li>
             <% } else{ %>
-            <li><a class="mr-3" href="#"><%= currentUser.username %></a></li>
-            <li><a href="/logout">Logout</a></li>
+            <!-- Button trigger modal -->
+            <li>
+              <a href="/campgrounds/new" type="button" class="btn " data-toggle="modal" data-target="#exampleModal">
+                <i class="fas fa-upload fa-lg" data-toggle="tooltip" data-placement="bottom"
+                  title="Post new campground"></i>
+              </a>
+            </li>
+
+            <!-- Button Profile -->
+            <div class="btn-group myprofile">
+              <i class="fas fa-user-circle fa-2x dropdown-toggle mt- ml-4" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false"></i>
+              <div class="dropdown-menu dropdown-menu-right myprofile-back">
+                <button class="dropdown-item" type="button">My Profile</button>
+                <button class="dropdown-item" type="button">Setting</button>
+                <a class="dropdown-item" href="/logout">Logout</a>
+              </div>
+            </div>
             <% } %>
           </ul>
         </div>
@@ -58,11 +75,11 @@
     </nav>
   </header>
   <!-- Message -->
-  <div class="container">
+  <!-- <div class="container">
     <% if(error && error.length > 0){ %>
     <div class="alert alert-danger" role="alert"><%= error %></div>
     <% } %>
     <% if(success && success.length > 0){ %>
     <div class="alert alert-success" role="alert"><%= success %></div>
     <% } %>
-  </div>
+  </div> -->

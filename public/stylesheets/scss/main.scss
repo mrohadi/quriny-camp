@@ -107,4 +107,44 @@ a{
 /* force scrollbar */
 html { overflow-y: scroll; }
 
-body { font-family: sans-serif; }
+.fa-upload:hover {
+  cursor: pointer;
+  color: $color-grey-dark-3;
+}
+
+.navbar{
+  border-bottom: 1px solid #dad9d9;
+}
+
+.myprofile{
+  cursor: pointer;
+
+  &-back{
+    background: $color-black;
+
+    & button{
+      color: $color-white;
+    }
+
+    & a{
+      color: $color-white;
+      border-top: 1px solid $color-white;
+    }
+  }
+}
+
+// Footer
+.footer{
+  & a{
+    color: $color-white;
+
+    & i{
+      cursor: pointer;
+    }
+  }
+  & a:hover{
+    color: $color-grey-dark-2;
+    cursor: pointer;
+  }
+  
+}

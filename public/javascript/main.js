@@ -10,3 +10,13 @@ var $grid = $('.grid').masonry({
 $grid.imagesLoaded().progress(function () {
     $grid.masonry();
 });
+
+// tooltip
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+
+// Modal
+$('#myModal').on('shown.bs.modal', function () {
+    $('#myInput').trigger('focus')
+})

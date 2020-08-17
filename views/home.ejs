@@ -1,35 +1,98 @@
 <%- include("partials/header") %>
 
-<!-- Main Content -->
-<!-- <img src="https://images.unsplash.com/photo-1520095972714-909e91b038e5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-    class="home-image" alt="Responsive image"> -->
-<div class="container">
-    <main role="main" class="container">
-        <div class="container">
-            <% if(error && error.length > 0){ %>
-            <div class="alert alert-danger" role="alert">
-                <%= error %>
+<!--Carousel Wrapper-->
+<main class="mycarousel">
+    <div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="carousel">
+        <!--Indicators-->
+        <ol class="carousel-indicators"></ol>
+        <!--/.Indicators-->
+        <!--Slides-->
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active">
+                <div class="view">
+                    <img class="d-block w-100 home-image"
+                        src="https://images.unsplash.com/photo-1527043604258-3f1c4fcce3f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+                        alt="First slide">
+                    <div class="mask rgba-black-light"></div>
+                </div>
+                <div class="carousel-caption">
+                    <h3 class="h3-responsive">Light mask</h3>
+                    <p>First text</p>
+                </div>
             </div>
-            <% } %>
-            <% if(success && success.length > 0){ %>
-            <div class="alert alert-success" role="alert">
-                <%= success %>
+            <% campgrounds.forEach(campground =>{ %>
+            <div class="carousel-item">
+                <!--Mask color-->
+                <div class="view">
+                    <img class="d-block w-100 home-image" src="<%= campground.image%>" alt="Second slide">
+                    <div class="mask rgba-black-strong"></div>
+                </div>
+                <div class="carousel-caption">
+                    <h3 class="h3-responsive"><%= campground.name%></h3>
+                    <p><em>Posted @ <%= campground.author.username%></em></p>
+                </div>
             </div>
-            <% } %>
+            <% }) %>
         </div>
-        <div id="home-header">
-            <h1>Welcome to QurinyCamp!</h1>
-            <a href="/campgrounds" class="btn btn-lg btn-success">View All Campgrounds</a>
-        </div>
+        <!--/.Slides-->
+        <!--Controls-->
+        <a class="carousel-control-prev" href="#carousel-example-2" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carousel-example-2" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+        <!--/.Controls-->
+    </div>
+</main>
+<!--/.Carousel Wrapper-->
 
-        <ul class="slideshow">
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
-    </main>
+<div class="myoverlay">
+    <h1>Welcome to QurinyCamp</h1>
+    <a href="/campgrounds" class="btn btn-lg btn-success mt-4">View All Campgrounds</a>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Post new campground</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-5">
+                <form action="/campgrounds" method="POST">
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="name" placeholder="name" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="image" placeholder="image url" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="number" name="price" placeholder="price" min="0.01"
+                            step="0.01" />
+                    </div>
+                    <!-- <div class="form-group">
+              <input class="form-control" type="text" name="description" placeholder="description" />
+            </div> -->
+
+                    <div class="form-group">
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description"
+                            placeholder="description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-lg btn-success btn-block mybtn">Submit</button>
+                    </div>
+                </form>
+                <a href="/campgrounds"> &#8592 Go Back</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Bundled File -->
@@ -49,6 +112,7 @@
 <script src="/javascript/main.js"></script>
 
 <!-- <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
 </body>
 
 </html>
