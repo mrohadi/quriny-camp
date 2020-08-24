@@ -1,38 +1,35 @@
 <%- include("../partials/header") %>
-
-<!-- Main Content -->
-<div class="container-fluid mb-4 px-5">
-  <div class="grid">
-    <div class="text-center ">
-      <% if(noMatch !== null){%>
-      <h3 class="align-center"><%= noMatch %></h3>
-      <% } %>
-    </div>
-    <% campgrounds.forEach(campground =>{ %>
-    <a href="/campgrounds/<%= campground._id %>">
-      <div class="grid-sizer mycampground">
-        <div class=" grid-item">
-          <div class="card">
-            <img class="card-img-top" src="<%= campground.image%>" />
-            <div class="card-body">
-              <h4 class="card-title"><%= campground.name %></h4>
-              <p class="card-text">
-                <a href="/campgrounds/<%= campground._id %>" class="btn btn-outline-success mybtn">More Info</a>
-              </p>
+<!-- Content -->
+<div class="container">
+    <div class="row px-5">
+        <div class="col-md-4">
+            <div class="thumbnail">
+                <h1><%= user.firstName + " " + user.lastName %></h1>
+                <img src="<%= user.avatar %>" alt="User Avatar">
             </div>
-            <div class="card-footer">
-              <small class="text-muted">Last updated <%= moment(campground.createdAt).fromNow() %></small>
-            </div>
-          </div>
         </div>
-      </div>
-    </a>
-    <% }) %>
-  </div>
+        <div class="col-md-8">
+            <div class="thumnail">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque nisi modi repellendus neque illum
+                pariatur
+                quos nam voluptas deserunt, qui illo dignissimos dolore, accusantium ea quis temporibus, natus obcaecati
+                quaerat assumenda ducimus. Placeat suscipit porro quas necessitatibus libero illum dolorem omnis aliquid
+                odio? Non iure sequi maiores quae veniam itaque modi cum architecto quos at aspernatur consequuntur
+                quaerat,
+                dicta labore. Excepturi saepe quam expedita nisi cum velit, quod architecto nulla omnis eveniet earum
+                dignissimos accusantium corrupti delectus doloremque quia amet voluptate autem sapiente repellat sit?
+                Iusto
+                ducimus similique dicta eveniet voluptas voluptates! Dolorem deleniti quibusdam laudantium optio eaque
+                officia nam?
+            </div>
+
+        </div>
+    </div>
 </div>
 
+
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
@@ -69,6 +66,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
+<!-- Footer -->
 <%- include("../partials/footer") %>

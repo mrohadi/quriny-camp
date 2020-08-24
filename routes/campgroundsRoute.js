@@ -26,22 +26,48 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+/* ==================== Regex for search bar ==================== */
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
 /* ==================== Campground Routes ==================== */
-// Index - show campgrounds route
+// Index - show all campgrounds route
 router.get("/", (req, res) => {
-  // console.log(req.user);
-  // get all campground from data base
-  Campground.find({}, (err, campgrounds) => {
-    if (err) {
-      console.log(err);
-    } else {
-      // render the campgrounds
-      res.render("campgrounds/campgrounds", {
-        campgrounds: campgrounds,
-        currentUser: req.user,
-      });
-    }
-  });
+  let noMatch = null;
+  if (req.query.search) {
+    const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+    // get all campground from data base
+    Campground.find({ name: regex }, (err, campgrounds) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (campgrounds.length < 1) {
+          noMatch = 'No campgrounds match!';
+        }
+        // render the campgrounds
+        res.render("campgrounds/campgrounds", {
+          campgrounds: campgrounds,
+          currentUser: req.user,
+          noMatch: noMatch
+        });
+      }
+    });
+  } else {
+    // get all campground from data base
+    Campground.find({}, (err, campgrounds) => {
+      if (err) {
+        console.log(err);
+      } else {
+        // render the campgrounds
+        res.render("campgrounds/campgrounds", {
+          campgrounds: campgrounds,
+          currentUser: req.user,
+          noMatch: noMatch
+        });
+      }
+    });
+  }
 });
 
 // Create - post a new campground route
@@ -74,7 +100,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function (req, r
 router.get("/:id", (req, res) => {
   // find the campground with provided ID
   Campground.findById(req.params.id)
-    .populate("comments")
+    .populate("comments likes")
     .exec((err, foundCampground) => {
       if (err) {
         console.log(err);
@@ -86,6 +112,34 @@ router.get("/:id", (req, res) => {
         });
       }
     });
+});
+
+// Campground Like Route
+router.post("/:id/like", middleware.isLoggedIn, function (req, res) {
+  Campground.findById(req.params.id, function (err, foundCampground) {
+    if (err) {
+      console.log(err);
+      return res.redirect("/campgrounds");
+    }
+    // check if req.user._id exists in foundCampground.likes
+    var foundUserLike = foundCampground.likes.some(function (like) {
+      return like.equals(req.user._id);
+    });
+    if (foundUserLike) {
+      // user already liked, removing like
+      foundCampground.likes.pull(req.user._id);
+    } else {
+      // adding the new user like
+      foundCampground.likes.push(req.user);
+    }
+    foundCampground.save(function (err) {
+      if (err) {
+        console.log(err);
+        return res.redirect("/campgrounds");
+      }
+      return res.redirect("/campgrounds/" + foundCampground._id);
+    });
+  });
 });
 
 /* ==================== Edit Campground Routes ==================== */
@@ -152,6 +206,5 @@ router.delete('/:id', (req, res) => {
     }
   });
 });
-
 
 module.exports = router;
