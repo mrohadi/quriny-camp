@@ -3,11 +3,6 @@
 <!-- Main Content -->
 <div class="container-fluid mb-4 px-5">
   <div class="grid">
-    <div class="text-center ">
-      <% if(noMatch !== null){%>
-      <h3 class="align-center"><%= noMatch %></h3>
-      <% } %>
-    </div>
     <% campgrounds.forEach(campground =>{ %>
     <a href="/campgrounds/<%= campground._id %>">
       <div class="grid-sizer mycampground">
