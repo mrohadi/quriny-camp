@@ -8,12 +8,11 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const methodOverride = require("method-override");
-const dotenv = require('dotenv').config();
+const dotenv = require("dotenv").config();
 const User = require("./models/userModel");
 const app = express();
 const PORT = process.env.PORT || 5000;
 // const seedDB = require("./seeds");
-
 
 // Import Routes
 const campgroundRoutes = require("./routes/campgroundsRoute");
@@ -30,7 +29,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
-    useCreateIndex: Boolean
+    useCreateIndex: Boolean,
   })
   .then(() => {
     console.log("Connected to MongoDB");
@@ -64,13 +63,13 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-app.locals.moment = require('moment');
+app.locals.moment = require("moment");
 
 // Middleware to check if the user is logged in
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
-  res.locals.error = req.flash('error');
-  res.locals.success = req.flash('success');
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
   next();
 });
 
